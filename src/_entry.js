@@ -7,6 +7,17 @@ var LOG = new Logger('main');
 LOG.info('plugin code loaded');
 
 //
+// Init i18n
+//
+var i18nData = {
+	pl : require("./lang.pl.js"),
+	en : require("./lang.en.js")
+}
+var I18n = require("./I18n.js");
+var i18n = new I18n(i18nData, mw.config.get('wgUserLanguage'));
+
+
+//
 // Replace `onFindChange` to hook into the find-and-replace form.
 //
 var firstFormLoad = true;
@@ -25,14 +36,6 @@ ve.ui.FindAndReplaceDialog.prototype.onFindChange = function () {
 	else {
 		LOG.info('onFindChange - repeated');
 	}
-	/*
-	ve.userConfig( {
-		'visualeditor-findAndReplace-findText': this.findText.getValue(),
-		'visualeditor-findAndReplace-matchCase': this.matchCaseToggle.getValue(),
-		'visualeditor-findAndReplace-regex': this.regexToggle.getValue(),
-		'visualeditor-findAndReplace-word': this.wordToggle.getValue()
-	} );
-	*/
 };
 
 // default rules
@@ -99,7 +102,8 @@ function addGui () {
 	for (var i = 0; i < rules.length; i++) {
 		var rule = rules[i];
 		rulesButtons[i] = new OO.ui.ButtonWidget( {
-			label: rule.title
+			label: rule.title,
+			title: i18n.get('rules-button-tooltip', {from:rule.s, to:rule.r})
 		} );
 		rulesButtons[i].$element[0]._veCS_rule = rule;
 		rulesButtons[i].$element.click(function(){
