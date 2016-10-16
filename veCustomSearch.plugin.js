@@ -50,23 +50,21 @@
 	var Logger = __webpack_require__(1);
 	var LOG = new Logger('main');
 
-	LOG.info('loaded');
+	LOG.info('plugin code loaded');
 
-	// check for elements
-	console.log('init', ve.init);
-	console.log('target', ve.init.target);
+	var toolbarHelper = __webpack_require__(3);
 
-	try {
-	toolbar = ve.init.target.getToolbar();
-	LOG.info(toolbar.$element);
-	} catch (e) {
-		LOG.warn('toolbar element not available', e.message);
-		debugger;
-	}
-	ve.init.platform.initialized.done(function(){console.log('target', ve.init.target);})
-
-	LOG.info('.ve-ui-findAndReplaceDialog: ', $('.ve-ui-findAndReplaceDialog').length);
-	LOG.info('.oo-ui-inputWidget-input: ', $('.oo-ui-inputWidget-input').length);
+	toolbarHelper.waitForToolbar().done(function(){
+		try {
+			toolbar = ve.init.target.getToolbar();
+			LOG.info(toolbar.$element);
+		} catch (e) {
+			LOG.warn('toolbar element not available', e.message);
+			debugger;
+		}
+		LOG.info('.ve-ui-findAndReplaceDialog: ', $('.ve-ui-findAndReplaceDialog').length);
+		LOG.info('.oo-ui-inputWidget-input: ', $('.oo-ui-inputWidget-input').length);
+	});
 
 
 /***/ },
@@ -303,6 +301,57 @@
 
 	if (typeof module !== 'undefined' && module.exports)  {
 		module.exports=Logger;
+	}
+
+/***/ },
+/* 2 */,
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Logger = __webpack_require__(1);
+	var LOG = new Logger('toolbarHelper');
+
+	/**
+		Wait for the toolbar to be fully loaded.
+	*/
+	function waitForToolbar() {
+		var dfd = jQuery.Deferred();
+		
+		var eventsBound = false;
+		LOG.performance('binding setInterval');
+		var waitId = setInterval(function() {
+			if (typeof(ve.init.target) !== 'object') {
+				return
+			}
+			LOG.performance('ve.init.target available');
+			
+			if (!eventsBound) {
+				eventsBound = true;
+				ve.init.target.on('surfaceReady', function() {
+					LOG.performance('surfaceReady');
+				});
+			}
+			
+			LOG.info('ve.init.target.loading: ', ve.init.target.loading);
+			if (ve.init.target.loading) {
+				return
+			}
+			
+			LOG.info('ve.init.target loaded');
+			clearInterval(waitId);
+			dfd.resolve();
+		}, 100);
+		
+		return dfd.promise();
+	}
+
+	//
+	// Module exports
+	// --------------------------------
+	if (typeof module !== 'undefined' && module.exports)  {
+		module.exports={
+			waitForToolbar : waitForToolbar
+		};
 	}
 
 /***/ }
