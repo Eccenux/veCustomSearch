@@ -81,17 +81,8 @@
 		*/
 	};
 
-	// example rules
-	var rules = [{
-		title: 'cudz.',
-		s: '(?:,,|["„])(.+?)["“]',
-		r: '„$1”',
-		options : {
-			caseSensitive: false,
-			regExp: true,
-			word: false
-		}
-	}];
+	// default rules
+	var rules = __webpack_require__(4);
 
 	/**
 		Apply value.
@@ -407,6 +398,48 @@
 
 	if (typeof module !== 'undefined' && module.exports)  {
 		module.exports=Logger;
+	}
+
+/***/ },
+/* 2 */,
+/* 3 */,
+/* 4 */
+/***/ function(module, exports) {
+
+	/**
+		Default search->replace rules (pl).
+	*/
+	defaultRules = [];
+
+	// pl-quotes
+	defaultRules.push({
+		title: 'cudz.',
+		s: '(?:,,|["„])(.+?)["“]',
+		r: '„$1”',
+		options : {
+			caseSensitive: false,
+			regExp: true,
+			word: false
+		}
+	});
+
+	// spacing
+	defaultRules.push({
+		title: 'int. spacja',
+		s: '([^\\s\\d][.,:])([^\\s\\d])',
+		r: '$1 $2',
+		options : {
+			caseSensitive: false,
+			regExp: true,
+			word: false
+		}
+	});
+
+	//
+	// Module exports
+	// --------------------------------
+	if (typeof module !== 'undefined' && module.exports)  {
+		module.exports=defaultRules;
 	}
 
 /***/ }

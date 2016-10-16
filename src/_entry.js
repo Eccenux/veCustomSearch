@@ -35,17 +35,8 @@ ve.ui.FindAndReplaceDialog.prototype.onFindChange = function () {
 	*/
 };
 
-// example rules
-var rules = [{
-	title: 'cudz.',
-	s: '(?:,,|["„])(.+?)["“]',
-	r: '„$1”',
-	options : {
-		caseSensitive: false,
-		regExp: true,
-		word: false
-	}
-}];
+// default rules
+var rules = require("./rules.js");
 
 /**
 	Apply value.

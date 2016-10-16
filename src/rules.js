@@ -1,14 +1,10 @@
 /**
-	Some search->replace rules.
-	
-	Think of it as named search form state.
+	Default search->replace rules (pl).
 */
-// make sure the settings exist
-if (!Array.isArray(veCustomSearchRules)) {
-	var veCustomSearchRules = [];
-}
+defaultRules = [];
+
 // pl-quotes
-veCustomSearchRules.push({
+defaultRules.push({
 	title: 'cudz.',
 	s: '(?:,,|["„])(.+?)["“]',
 	r: '„$1”',
@@ -20,9 +16,9 @@ veCustomSearchRules.push({
 });
 
 // spacing
-veCustomSearchRules.push({
+defaultRules.push({
 	title: 'int. spacja',
-	s: '([^\s\d][.,:])([^\s\d])',
+	s: '([^\\s\\d][.,:])([^\\s\\d])',
 	r: '$1 $2',
 	options : {
 		caseSensitive: false,
@@ -30,3 +26,10 @@ veCustomSearchRules.push({
 		word: false
 	}
 });
+
+//
+// Module exports
+// --------------------------------
+if (typeof module !== 'undefined' && module.exports)  {
+	module.exports=defaultRules;
+}
