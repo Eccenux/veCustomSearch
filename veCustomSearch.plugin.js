@@ -52,19 +52,31 @@
 
 	LOG.info('plugin code loaded');
 
-	var toolbarHelper = __webpack_require__(3);
-
-	toolbarHelper.waitForToolbar().done(function(){
-		try {
-			toolbar = ve.init.target.getToolbar();
-			LOG.info(toolbar.$element);
-		} catch (e) {
-			LOG.warn('toolbar element not available', e.message);
-			debugger;
+	//
+	// Replace `onFindChange` to hook into the find-and-replace form.
+	//
+	var firstFormLoad = true;
+	var old_onFindChange = ve.ui.FindAndReplaceDialog.prototype.onFindChange;
+	ve.ui.FindAndReplaceDialog.prototype.onFindChange = function () {
+		old_onFindChange.call(this);
+		if (firstFormLoad) {
+			firstFormLoad = false;
+			LOG.info('onFindChange - init; this: ', this);
+			LOG.info('.ve-ui-findAndReplaceDialog: ', $('.ve-ui-findAndReplaceDialog').length);
+			LOG.info('.oo-ui-inputWidget-input: ', $('.oo-ui-inputWidget-input').length);
 		}
-		LOG.info('.ve-ui-findAndReplaceDialog: ', $('.ve-ui-findAndReplaceDialog').length);
-		LOG.info('.oo-ui-inputWidget-input: ', $('.oo-ui-inputWidget-input').length);
-	});
+		else {
+			LOG.info('onFindChange - repeated');
+		}
+		/*
+		ve.userConfig( {
+			'visualeditor-findAndReplace-findText': this.findText.getValue(),
+			'visualeditor-findAndReplace-matchCase': this.matchCaseToggle.getValue(),
+			'visualeditor-findAndReplace-regex': this.regexToggle.getValue(),
+			'visualeditor-findAndReplace-word': this.wordToggle.getValue()
+		} );
+		*/
+	};
 
 
 /***/ },
@@ -301,70 +313,6 @@
 
 	if (typeof module !== 'undefined' && module.exports)  {
 		module.exports=Logger;
-	}
-
-/***/ },
-/* 2 */,
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Logger = __webpack_require__(1);
-	var LOG = new Logger('toolbarHelper');
-
-	/**
-		Wait for the toolbar to be fully loaded.
-	*/
-	function waitForToolbar(surfaceReadyCheck) {
-		var dfd = jQuery.Deferred();
-		
-		var eventsBound = false;
-		var surfaceReady = false;
-		var targetLoaded = false;
-		if (!surfaceReadyCheck) {
-			surfaceReady = true;
-		}
-		LOG.performance('binding setInterval');
-		var waitId = setInterval(function() {
-			if (typeof(ve.init.target) !== 'object') {
-				return
-			}
-			LOG.performance('ve.init.target available');
-			
-			if (surfaceReadyCheck) {
-				if (!eventsBound) {
-					eventsBound = true;
-					ve.init.target.on('surfaceReady', function() {
-						LOG.performance('surfaceReady');
-						surfaceReady = true;
-						if (targetLoaded) {
-							dfd.resolve();
-						}
-					});
-				}
-			}
-			
-			LOG.info('ve.init.target.loading: ', ve.init.target.loading);
-			if (ve.init.target.loading) {
-				return
-			}
-			targetLoaded = true;
-			LOG.info('ve.init.target loaded');
-			clearInterval(waitId);
-			if (surfaceReady) {
-				dfd.resolve();
-			}
-		}, 100);
-		
-		return dfd.promise();
-	}
-
-	//
-	// Module exports
-	// --------------------------------
-	if (typeof module !== 'undefined' && module.exports)  {
-		module.exports={
-			waitForToolbar : waitForToolbar
-		};
 	}
 
 /***/ }
