@@ -8,6 +8,7 @@ Polski
 ### Domyślne reguły ###
 
 Domyślnie zawiera reguły do:
+
 1. Poprawiania cudzysłowów na polskie.
 2. Poprawiania spacji wokół znaków przestankowych (np. "abc , def" zamieni na "abc, def").
 
