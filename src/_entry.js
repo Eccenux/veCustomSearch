@@ -48,10 +48,40 @@ var rules = [{
 }];
 
 /**
+	Apply value.
+	@return true if value was found and actualy applied (different).
+*/
+function applyValue (control, valueObject, valueKey) {
+	if (valueKey in valueObject) {
+		var next = valueObject[valueKey];
+		var current = control.getValue();
+		if (current != next) {
+			control.setValue(next);
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
 	Apply rule.
 */
 function applyRule (rule) {
 	LOG.info('applyRule called: ', rule);
+	// pre-parse
+	if (typeof(rule) !== 'object') {
+		return;
+	}
+	if (typeof(rule.options) !== 'object') {
+		rule.options = {};
+	}
+	// apply
+	var changed = false;
+	changed |= applyValue(findAndReplaceDialog.findText, rule, 's');
+	changed |= applyValue(findAndReplaceDialog.replaceText, rule, 'r');
+	changed |= applyValue(findAndReplaceDialog.matchCaseToggle, rule.options, 'caseSensitive');
+	changed |= applyValue(findAndReplaceDialog.regexToggle, rule.options, 'regExp');
+	changed |= applyValue(findAndReplaceDialog.wordToggle, rule.options, 'word');
 }
 
 /**
@@ -61,6 +91,8 @@ var rulesButtons = [];
 
 /**
 	Add (init) GUI.
+	
+	@return true if GUI was successfully initialized.
 */
 function addGui () {
 	LOG.info('addGui called');
@@ -80,7 +112,6 @@ function addGui () {
 		} );
 		rulesButtons[i].$element[0]._veCS_rule = rule;
 		rulesButtons[i].$element.click(function(){
-			debugger;
 			applyRule(this._veCS_rule);
 		});
 	}
