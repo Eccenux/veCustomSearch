@@ -52,11 +52,28 @@
 
 	LOG.info('loaded');
 
+	// check for elements
+	console.log('init', ve.init);
+	console.log('target', ve.init.target);
+
+	try {
+	toolbar = ve.init.target.getToolbar();
+	LOG.info(toolbar.$element);
+	} catch (e) {
+		LOG.warn('toolbar element not available', e.message);
+		debugger;
+	}
+	ve.init.platform.initialized.done(function(){console.log('target', ve.init.target);})
+
+	LOG.info('.ve-ui-findAndReplaceDialog: ', $('.ve-ui-findAndReplaceDialog').length);
+	LOG.info('.oo-ui-inputWidget-input: ', $('.oo-ui-inputWidget-input').length);
+
+
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {/**
+	/**
 	 * Simple logger class.
 	 * 
 	 * Assuming Firebug style console object is avaiable: http://getfirebug.com/logging
@@ -284,26 +301,9 @@
 		}
 	};
 
-	if (module && module.exports) {
+	if (typeof module !== 'undefined' && module.exports)  {
 		module.exports=Logger;
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
 
 /***/ }
 /******/ ]);
