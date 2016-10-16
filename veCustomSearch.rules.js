@@ -10,8 +10,8 @@ if (!Array.isArray(veCustomSearchRules)) {
 // pl-quotes
 veCustomSearchRules.push({
 	title: 'cudz.',
-	s: '(?:,,|["„])(.+?)["“]',
-	r: '„$1”',
+	s: '(?:,,|["â€])(.+?)["â€œ]',
+	r: 'â€$1â€',
 	options : {
 		caseSensitive: false,
 		regExp: true,
