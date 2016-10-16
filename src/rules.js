@@ -1,7 +1,7 @@
 /**
 	Default search->replace rules (pl).
 */
-defaultRules = [];
+var defaultRules = [];
 
 // pl-quotes
 defaultRules.push({
