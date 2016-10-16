@@ -54,7 +54,7 @@
 
 	var toolbarHelper = __webpack_require__(3);
 
-	toolbarHelper.waitForToolbar(true).done(function(){
+	toolbarHelper.waitForToolbar().done(function(){
 		try {
 			toolbar = ve.init.target.getToolbar();
 			LOG.info(toolbar.$element);
