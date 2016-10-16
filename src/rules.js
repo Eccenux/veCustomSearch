@@ -6,7 +6,7 @@ var defaultRules = [];
 // pl-quotes
 defaultRules.push({
 	title: 'cudz.',
-	s: '(?:,,|["„])(.+?)["“]',
+	s: '(?:,,|["])(.+?)["“]',
 	r: '„$1”',
 	options : {
 		caseSensitive: false,
