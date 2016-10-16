@@ -8,7 +8,7 @@ LOG.info('plugin code loaded');
 
 var toolbarHelper = require("./toolbarHelper.js");
 
-toolbarHelper.waitForToolbar().done(function(){
+toolbarHelper.waitForToolbar(true).done(function(){
 	try {
 		toolbar = ve.init.target.getToolbar();
 		LOG.info(toolbar.$element);
