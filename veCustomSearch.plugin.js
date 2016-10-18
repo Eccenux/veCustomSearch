@@ -56,10 +56,10 @@
 	// Init i18n
 	//
 	var i18nData = {
-		pl : __webpack_require__(5),
-		en : __webpack_require__(6)
+		pl : __webpack_require__(2),
+		en : __webpack_require__(3)
 	}
-	var I18n = __webpack_require__(7);
+	var I18n = __webpack_require__(4);
 	var i18n = new I18n(i18nData, mw.config.get('wgUserLanguage'));
 
 
@@ -85,7 +85,7 @@
 	};
 
 	// default rules
-	var rules = __webpack_require__(4);
+	var rules = __webpack_require__(5);
 
 	/**
 		Apply value.
@@ -405,49 +405,7 @@
 	}
 
 /***/ },
-/* 2 */,
-/* 3 */,
-/* 4 */
-/***/ function(module, exports) {
-
-	/**
-		Default search->replace rules (pl).
-	*/
-	var defaultRules = [];
-
-	// pl-quotes
-	defaultRules.push({
-		title: 'cudz.',
-		s: '(?:,,|["„])(.+?)["“]',
-		r: '„$1”',
-		options : {
-			caseSensitive: false,
-			regExp: true,
-			word: false
-		}
-	});
-
-	// spacing
-	defaultRules.push({
-		title: 'int. spacja',
-		s: '([^\\s\\d][.,:])([^\\s\\d])',
-		r: '$1 $2',
-		options : {
-			caseSensitive: false,
-			regExp: true,
-			word: false
-		}
-	});
-
-	//
-	// Module exports
-	// --------------------------------
-	if (typeof module !== 'undefined' && module.exports)  {
-		module.exports=defaultRules;
-	}
-
-/***/ },
-/* 5 */
+/* 2 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -455,7 +413,7 @@
 	};
 
 /***/ },
-/* 6 */
+/* 3 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -463,7 +421,7 @@
 	};
 
 /***/ },
-/* 7 */
+/* 4 */
 /***/ function(module, exports) {
 
 	/**
@@ -736,6 +694,58 @@
 
 	if (typeof module !== 'undefined' && module.exports)  {
 		module.exports=I18n;
+	}
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	/**
+		Default search->replace rules (pl).
+	*/
+	var defaultRules = [];
+
+	// dash
+	defaultRules.push({
+		title: ' – ',
+		s: ' - ',
+		r: ' – ',
+		options : {
+			caseSensitive: false,
+			regExp: true,
+			word: false
+		}
+	});
+
+	// pl-quotes
+	defaultRules.push({
+		title: 'cudz.',
+		s: '(?:,,|["])(.+?)["“]',
+		r: '„$1”',
+		options : {
+			caseSensitive: false,
+			regExp: true,
+			word: false
+		}
+	});
+
+	// spacing
+	defaultRules.push({
+		title: 'int. spacja',
+		s: '([^\\s\\d][.,:])([^\\s\\d])',
+		r: '$1 $2',
+		options : {
+			caseSensitive: false,
+			regExp: true,
+			word: false
+		}
+	});
+
+	//
+	// Module exports
+	// --------------------------------
+	if (typeof module !== 'undefined' && module.exports)  {
+		module.exports=defaultRules;
 	}
 
 /***/ }

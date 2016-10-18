@@ -3,6 +3,18 @@
 */
 var defaultRules = [];
 
+// dash
+defaultRules.push({
+	title: ' – ',
+	s: ' - ',
+	r: ' – ',
+	options : {
+		caseSensitive: false,
+		regExp: true,
+		word: false
+	}
+});
+
 // pl-quotes
 defaultRules.push({
 	title: 'cudz.',
