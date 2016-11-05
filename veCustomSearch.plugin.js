@@ -741,6 +741,19 @@
 		}
 	});
 
+	// dates
+	defaultRules.push({
+		title: 'Y-m-d',
+		s: '(\d{1,2})\.(\d{1,2})\.(\d{4})',
+		r: '$3-$2-$1',
+		options : {
+			caseSensitive: false,
+			regExp: true,
+			word: false
+		}
+	});
+
+
 	//
 	// Module exports
 	// --------------------------------
